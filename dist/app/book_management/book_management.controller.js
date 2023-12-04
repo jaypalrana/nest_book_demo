@@ -17,8 +17,6 @@ const common_1 = require("@nestjs/common");
 const book_management_service_1 = require("./book_management.service");
 const create_book_management_dto_1 = require("./dto/create-book_management.dto");
 const update_book_management_dto_1 = require("./dto/update-book_management.dto");
-const delete_book_management_dto_1 = require("./dto/delete-book_management.dto");
-const get_book_management_dto_1 = require("./dto/get-book_management.dto");
 const response_service_1 = require("../../common/response.service");
 const common_service_1 = require("../../common/common.service");
 let BookManagementController = class BookManagementController {
@@ -29,18 +27,15 @@ let BookManagementController = class BookManagementController {
     }
     async addBook(req, res, body) {
         try {
-            console.log("req.bodyy::", req.body);
             const checkISBN = await this.commonService.validateISBN(body.isbn);
-            console.log("check:::", checkISBN);
-            if (checkISBN == false) {
-                throw new common_1.UnauthorizedException("INVALID_ISBN");
+            if (!checkISBN) {
+                throw new Error("INVALID_ISBN");
             }
             await this.bookManagementService.bookService(req.body);
             const data = true;
             this.responseService.success(res, "BOOK_ADDED", data);
         }
         catch (error) {
-            console.log("error", error);
             this.responseService.error(req, res, error.message);
         }
     }
@@ -50,37 +45,33 @@ let BookManagementController = class BookManagementController {
             this.responseService.success(res, "SUCCESS", data);
         }
         catch (error) {
-            console.log("error", error);
             this.responseService.error(req, res, error.message);
         }
     }
-    async getBookById(req, res, body) {
+    async getBookById(id, req, res) {
         try {
-            const data = await this.bookManagementService.bookIdService(body);
+            const data = await this.bookManagementService.bookIdService(+id);
             this.responseService.success(res, "SUCCESS", data);
         }
         catch (error) {
-            console.log("error", error);
             this.responseService.error(req, res, error.message);
         }
     }
     async updateBook(req, res, body) {
         try {
             const data = await this.bookManagementService.bookUpdateService(body);
-            this.responseService.success(res, "SUCCESS", data);
+            this.responseService.success(res, "BOOK_DETAILS_UPDATED", data);
         }
         catch (error) {
-            console.log("error", error);
             this.responseService.error(req, res, error.message);
         }
     }
-    async deleteBook(req, res, body) {
+    async deleteBook(id, req, res) {
         try {
-            const data = await this.bookManagementService.deleteBookService(body);
-            this.responseService.success(res, "SUCCESS", data);
+            const data = await this.bookManagementService.deleteBookService(+id);
+            this.responseService.success(res, "BOOK_DETAILS_DELETED", data);
         }
         catch (error) {
-            console.log("error", error);
             this.responseService.error(req, res, error.message);
         }
     }
@@ -104,12 +95,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookManagementController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)("/book-id"),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __param(2, (0, common_1.Body)()),
+    (0, common_1.Get)("/book-id/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, get_book_management_dto_1.GetBookManagementDto]),
+    __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
 ], BookManagementController.prototype, "getBookById", null);
 __decorate([
@@ -122,12 +113,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookManagementController.prototype, "updateBook", null);
 __decorate([
-    (0, common_1.Delete)("/delete-book"),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __param(2, (0, common_1.Body)()),
+    (0, common_1.Delete)("/delete-book/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, delete_book_management_dto_1.DeleteBookManagementDto]),
+    __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
 ], BookManagementController.prototype, "deleteBook", null);
 exports.BookManagementController = BookManagementController = __decorate([

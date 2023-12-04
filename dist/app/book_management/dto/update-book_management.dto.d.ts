@@ -1,7 +1,7 @@
-import { CreateBookManagementDto } from './create-book_management.dto';
+import { CreateBookManagementDto } from "./create-book_management.dto";
 declare const UpdateBookManagementDto_base: import("@nestjs/mapped-types").MappedType<Partial<CreateBookManagementDto>>;
 export declare class UpdateBookManagementDto extends UpdateBookManagementDto_base {
-    bookId: number;
+    id: number;
     title: string;
 }
 export {};

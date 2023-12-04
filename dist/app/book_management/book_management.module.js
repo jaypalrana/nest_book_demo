@@ -19,9 +19,7 @@ let BookManagementModule = class BookManagementModule {
 exports.BookManagementModule = BookManagementModule;
 exports.BookManagementModule = BookManagementModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forFeature([book_management_entity_1.BookManagement]),
-        ],
+        imports: [typeorm_1.TypeOrmModule.forFeature([book_management_entity_1.BookManagement])],
         controllers: [book_management_controller_1.BookManagementController],
         providers: [book_management_service_1.BookManagementService, response_service_1.ResponseService, common_service_1.CommonService],
         exports: [typeorm_1.TypeOrmModule],

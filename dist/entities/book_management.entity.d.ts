@@ -1,8 +1,8 @@
 export declare class BookManagement {
-    bookId: number;
+    id: number;
     title: string;
     isbn: string;
+    is_deleted: number;
     createdAt: Date;
     updatedAt: Date;
-    deletedAt: Date;
 }

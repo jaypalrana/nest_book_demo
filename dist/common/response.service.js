@@ -9,20 +9,17 @@ var ResponseService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResponseService = void 0;
 const common_1 = require("@nestjs/common");
-const Messages = require("./messages.json");
+const messages = require("./messages.json");
 let ResponseService = ResponseService_1 = class ResponseService {
     constructor() {
         this.logger = new common_1.Logger(ResponseService_1.name);
     }
     async error(req, res, msg, statusCode = 500, language = "en") {
         if (typeof msg === "string") {
-            msg = this.getMessage(msg, language)
-                ? this.getMessage(msg, language)
-                : msg;
+            console.log(msg.includes(" "));
+            if (msg.includes(" ") == false)
+                msg = await this.getMessage(msg, language);
         }
-        console.log("message", msg);
-        if (msg == "User is blocked by admin")
-            statusCode = 403;
         const response = {
             code: 0,
             status: "FAIL",
@@ -48,14 +45,12 @@ let ResponseService = ResponseService_1 = class ResponseService {
             res.status(statusCode).json(response);
         }
         catch (error) {
-            console.log(`\nsuccess error ->> `, error);
             return;
         }
     }
     getMessage(msg, language) {
-        console.log("starring");
         const lang = language ? language : "en";
-        return Messages[lang][msg] || Messages[lang]["SOMETHING_WENT_WRONG"];
+        return messages[lang][msg] || messages[lang]["SOMETHING_WENT_WRONG"];
     }
 };
 exports.ResponseService = ResponseService;

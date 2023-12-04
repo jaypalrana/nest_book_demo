@@ -17,7 +17,7 @@ exports.BookManagement = BookManagement;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], BookManagement.prototype, "bookId", void 0);
+], BookManagement.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "character varying" }),
     __metadata("design:type", String)
@@ -26,6 +26,10 @@ __decorate([
     (0, typeorm_1.Column)({ type: "character varying" }),
     __metadata("design:type", String)
 ], BookManagement.prototype, "isbn", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "smallint" }),
+    __metadata("design:type", Number)
+], BookManagement.prototype, "is_deleted", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({
         type: "timestamptz",
@@ -42,14 +46,6 @@ __decorate([
     }),
     __metadata("design:type", Date)
 ], BookManagement.prototype, "updatedAt", void 0);
-__decorate([
-    (0, typeorm_1.DeleteDateColumn)({
-        type: "timestamptz",
-        nullable: true,
-        select: true,
-    }),
-    __metadata("design:type", Date)
-], BookManagement.prototype, "deletedAt", void 0);
 exports.BookManagement = BookManagement = __decorate([
     (0, typeorm_1.Entity)()
 ], BookManagement);

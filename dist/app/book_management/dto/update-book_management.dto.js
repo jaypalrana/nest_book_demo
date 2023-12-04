@@ -18,8 +18,9 @@ class UpdateBookManagementDto extends (0, mapped_types_1.PartialType)(create_boo
 exports.UpdateBookManagementDto = UpdateBookManagementDto;
 __decorate([
     (0, class_validator_1.IsDefined)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
-], UpdateBookManagementDto.prototype, "bookId", void 0);
+], UpdateBookManagementDto.prototype, "id", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)

@@ -3,7 +3,6 @@
 
 
 - REST API with [TypeORM](http://typeorm.io) support 
-- Swagger documentation, Winston logger, ...
 - Folder structure, code samples and best practices
 
 ## 1. Getting started
@@ -44,34 +43,40 @@ npm run start:dev
 This template was made with a well-defined directory structure.
 
 ```sh
+src/
     .
     ├── dist
-    │   ├── app
-    │   │   └── book_management
-    │   │       ├── dto
-    │   ├── common
-    │   ├── config
-    │   ├── entities
-    │   ├── guard
-    │   ├── middlewares
-    │   └── tsconfig.build.tsbuildinfo
-    ├── public
-    ├── README.md
+    ├── Dockerfile
+    ├── nest-cli.json
+    ├── package.json
+    ├── package-lock.json
     ├── src
-    │   ├── app
-    │   │   └── book_management
-    │   │       ├── dto
-    │   ├── common
-    │   ├── config
-    │   ├── entities
-    │   ├── guard
-    │   ├── main.ts
-    │   ├── middlewares
-    │   └── views
+    │  ├── app
+    │  │  └── book_management
+    │  │      ├── book_management.controller.ts
+    │  │      ├── book_management.module.ts
+    │  │      ├── book_management.service.ts
+    │  │      └── dto
+    │  │          ├── create-book_management.dto.ts
+    │  │          └── update-book_management.dto.ts
+    │  ├── app.module.ts
+    │  ├── common
+    │  │  ├── common.service.ts
+    │  │  ├── messages.json
+    │  │  ├── response.service.ts
+    │  │  ├── validation-exception.filter.ts
+    │  │  └── validation.pipe.ts
+    │  ├── config
+    │  │  └── database.config.ts
+    │  ├── entities
+    │  │  └── book_management.entity.ts
+    │  ├── main.ts
+    │  └── middlewares
+    │      └── logger.middleware.ts
     ├── test
+    │  └── jest-e2e.json
     ├── tsconfig.build.json
     └── tsconfig.json
-
 ```
 
 ## 3. Default NPM commands

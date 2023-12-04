@@ -3,9 +3,9 @@ import { Repository } from "typeorm";
 export declare class BookManagementService {
     private bookManagement;
     constructor(bookManagement: Repository<BookManagement>);
-    bookService(body: any): Promise<void>;
-    bookListingService(): Promise<BookManagement[]>;
-    bookUpdateService(body: any): Promise<boolean>;
-    bookIdService(body: any): Promise<BookManagement>;
-    deleteBookService(body: any): Promise<boolean>;
+    bookService(body: any): Promise<any>;
+    bookListingService(): Promise<any>;
+    bookUpdateService(body: any): Promise<any>;
+    bookIdService(id: number): Promise<any>;
+    deleteBookService(id: number): Promise<any>;
 }

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommonService = void 0;
 class CommonService {
     async validateISBN(isbn) {
-        const sanitizedISBN = isbn.replace(/[-\s]/g, '');
+        const sanitizedISBN = isbn.replace(/[-\s]/g, "");
         if (sanitizedISBN.length === 10) {
             const regex = /^(?:\d{9}[\dXx])$/;
             return regex.test(sanitizedISBN);

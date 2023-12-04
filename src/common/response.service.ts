@@ -1,21 +1,16 @@
 import { Injectable, Logger } from "@nestjs/common";
-import * as Messages from "./messages.json";
+import * as messages from "./messages.json";
 
 @Injectable()
 export class ResponseService {
-  
   private readonly logger = new Logger(ResponseService.name);
 
   async error(req: any, res: any, msg: any, statusCode = 500, language = "en") {
-
     if (typeof msg === "string") {
-      msg = this.getMessage(msg, language)
-        ? this.getMessage(msg, language)
-        : msg;
+      console.log(msg.includes(" "));
+      if (msg.includes(" ") == false)
+        msg = await this.getMessage(msg, language);
     }
-    console.log("message", msg);
-    if (msg == "User is blocked by admin") statusCode = 403;
-    // if (msg == "TOKEN_EXPIRED") statusCode = 405;
     const response = {
       code: 0,
       status: "FAIL",
@@ -42,7 +37,6 @@ export class ResponseService {
     language = "en"
   ) {
     try {
-
       if (typeof msg === "string") {
         msg = await this.getMessage(msg, language);
       }
@@ -55,16 +49,12 @@ export class ResponseService {
 
       res.status(statusCode).json(response);
     } catch (error) {
-      console.log(`\nsuccess error ->> `, error);
       return;
     }
   }
 
   getMessage(msg: string, language: string) {
-    console.log("starring");
-
     const lang = language ? language : "en";
-    return Messages[lang][msg] || Messages[lang]["SOMETHING_WENT_WRONG"];
-    // return Messages[lang][msg];
+    return messages[lang][msg] || messages[lang]["SOMETHING_WENT_WRONG"];
   }
 }

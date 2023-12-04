@@ -17,8 +17,6 @@ const common_1 = require("@nestjs/common");
 const book_management_entity_1 = require("../../entities/book_management.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
-const moment = require("moment-timezone");
-const now = moment().format("YYYY-MM-DD HH:mm:ss.SSS");
 let BookManagementService = class BookManagementService {
     constructor(bookManagement) {
         this.bookManagement = bookManagement;
@@ -33,70 +31,59 @@ let BookManagementService = class BookManagementService {
             console.log("data::", data);
         }
         catch (error) {
-            throw new common_1.UnauthorizedException(error);
+            throw error;
         }
     }
     async bookListingService() {
         try {
-            const getAllData = await this.bookManagement.find({ where: { deletedAt: null } });
-            console.log("getAll::", getAllData);
+            const getAllData = await this.bookManagement.find({
+                where: { is_deleted: 0 },
+            });
             return getAllData;
         }
         catch (error) {
-            throw new common_1.UnauthorizedException(error);
+            throw error;
         }
     }
     async bookUpdateService(body) {
         try {
-            console.log("body", body);
-            const { bookId, title } = body;
-            let bookExist = await this.bookManagement.findOne({
-                where: { bookId: bookId, deletedAt: null }
+            const { id, title } = body;
+            const bookExist = await this.bookManagement.findOne({
+                where: { id: id, is_deleted: 0 },
             });
-            if (Boolean(bookExist)) {
-                await this.bookManagement.update({ bookId: bookId }, { title: title });
-            }
-            else {
-                throw "NOT_FOUND";
+            await this.bookManagement.update({ id: id }, { title: title });
+            if (!bookExist) {
+                throw new Error("NOT_FOUND");
             }
             return true;
         }
         catch (error) {
-            console.log("error::", error);
-            throw new common_1.UnauthorizedException(error);
+            throw error;
         }
     }
-    async bookIdService(body) {
+    async bookIdService(id) {
         try {
-            const { bookId } = body;
             const getBookData = await this.bookManagement.findOne({
-                where: { bookId: bookId, deletedAt: null },
+                where: { id: id, is_deleted: 0 },
             });
-            console.log("gets::", getBookData);
-            if (Boolean(getBookData) == false) {
-                throw "NOT_FOUND";
+            if (!getBookData) {
+                throw new Error("NOT_FOUND");
             }
             return getBookData;
         }
         catch (error) {
-            console.log("error::", error);
-            throw new common_1.UnauthorizedException(error);
+            throw error;
         }
     }
-    async deleteBookService(body) {
+    async deleteBookService(id) {
         try {
-            const { bookId } = body;
-            const data = await this.bookManagement.update({ bookId: bookId, deletedAt: null }, { deletedAt: now });
-            if (data.affected == 1) {
-                return true;
-            }
-            else {
-                throw "NOT_FOUND";
+            const data = await this.bookManagement.update({ id: id, is_deleted: 0 }, { is_deleted: 1 });
+            if (!data.affected) {
+                throw new Error("NOT_FOUND");
             }
         }
         catch (error) {
-            console.log("error::", error);
-            throw new common_1.UnauthorizedException(error);
+            throw error;
         }
     }
 };
